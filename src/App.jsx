@@ -5,8 +5,19 @@ function App() {
   const [value, setValue] = useState("");
   const [todo, setTodo] = useState([]);
 
+  useEffect(() => {
+    const storedItem = JSON.parse(localStorage.getItem("tarefas") || "[]");
+    setTodo(storedItem);
+  }, []);
+
   const handleAddTask = (e) => {
     e.preventDefault();
+    if (value.trim() !== "") {
+      const newItem = value.trim();
+      setTodo([...todo, newItem]);
+      setValue("");
+      localStorage.setItem("tarefas", JSON.stringify([...todo, newItem]));
+    }
   };
 
   return (
